@@ -14,6 +14,7 @@ $ make install
 
 1. **Переключение происходит на отпускании клавиш (keyUp)**, а не на нажатии. Пока держишь Cmd+Space — ничего не происходит, раскладка меняется только после отпускания.
 2. **Под CPU-нагрузкой нажатия теряются** (10–30%): событие проходит через цепочку symbolic hotkey → WindowServer → TextInputMenuAgent, и любой перегруженный узел её роняет. Замер на 12-ядерном стресс-тесте: медиана 364 мс, худшие случаи 2.4 с, часть нажатий теряется полностью.
+3. **Первая буква после переключения уходит в старой раскладке**: раскладка меняется только на отпускании, и если начать печатать сразу после нажатия Cmd+Space — первый символ уходит через прежний источник ввода.
 
 Сама механика переключения (`TISSelectInputSource`) при этом работает за 2–9 мс.
 
@@ -24,6 +25,8 @@ $ make install
 - [Delay/unresponsive on change input](https://developer.apple.com/forums/thread/51454) — Apple Developer Forums
 - [Why there is a language switch lag?](https://discussions.apple.com/thread/7769867) — Apple Community (тянется ещё с Sierra)
 - [Delay in switching the language layout on mac OS](https://www.reddit.com/r/mac/comments/r2odrh/delay_in_switching_the_language_layout_on_mac_os/) — Reddit
+- [First letter automatically in the wrong language](https://discussions.apple.com/thread/256131449) — Apple Community
+- [Mac sometimes changes first letter to English instead of correct localization in macOS Tahoe](https://apple.stackexchange.com/questions/481509/mac-sometimes-changes-first-letter-to-english-instead-of-correct-localization-in) — Ask Different
 
 ## Как работает
 

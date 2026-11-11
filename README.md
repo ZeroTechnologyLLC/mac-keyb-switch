@@ -14,6 +14,7 @@ The stock "Input Sources" hotkey (Cmd+Space) in macOS has two problems:
 
 1. **Switching happens on key release (keyUp)**, not on key press. While you hold Cmd+Space nothing happens — the layout only changes after you let go.
 2. **Under CPU load, keystrokes get dropped** (10–30%): the event travels through the symbolic hotkey → WindowServer → TextInputMenuAgent chain, and any overloaded node drops it. Measured on a 12-core stress test: median 364 ms, worst cases 2.4 s, some presses lost entirely.
+3. **The first character after a switch lands in the old layout**: since the switch only fires on key release, typing immediately after pressing Cmd+Space sends the first letter through the previous input source.
 
 The switching machinery itself (`TISSelectInputSource`) runs in 2–9 ms.
 
@@ -24,6 +25,8 @@ This is a long-standing and widely reported issue:
 - [Delay/unresponsive on change input](https://developer.apple.com/forums/thread/51454) — Apple Developer Forums
 - [Why there is a language switch lag?](https://discussions.apple.com/thread/7769867) — Apple Community (dating back to Sierra)
 - [Delay in switching the language layout on mac OS](https://www.reddit.com/r/mac/comments/r2odrh/delay_in_switching_the_language_layout_on_mac_os/) — Reddit
+- [First letter automatically in the wrong language](https://discussions.apple.com/thread/256131449) — Apple Community
+- [Mac sometimes changes first letter to English instead of correct localization in macOS Tahoe](https://apple.stackexchange.com/questions/481509/mac-sometimes-changes-first-letter-to-english-instead-of-correct-localization-in) — Ask Different
 
 ## How it works
 
